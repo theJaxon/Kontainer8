@@ -31,7 +31,9 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 ### How to use:
 ```bash
 # Clone the repo
-git clone
+git clone https://github.com/theJaxon/Kontainerd.git
+
+cd Kontainerd
 
 # Start the machines 
 vagrant up 
