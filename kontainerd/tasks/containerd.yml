@@ -1,0 +1,52 @@
+---
+- name: Enable needed kernel modules for containerd
+  blockinfile:
+    block: |
+      overlay 
+      br_netfilter
+    path: /etc/modules-load.d/containerd.conf
+    create: true
+
+- name: Load kernel modules 
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ kernel_modules }}"
+
+- name: Configure kubernetes networking settings 
+  sysctl:
+    name: "{{ item }}"
+    value: '1'
+    reload: true 
+    sysctl_set: true 
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+    state: present
+  loop: "{{ kernel_parameters_list }}"
+
+- name: Install containerd 
+  apt:
+    name: containerd
+    state: present
+
+- name: Generate containerd default configuration file
+  shell: "containerd config default"
+  register: containerd_config
+  changed_when: false
+
+- set_fact:
+    containerd_config: "{{ containerd_config['stdout'] }}"
+
+- name: create containerd directory 
+  file:
+    path: /etc/containerd
+    state: directory
+
+- name: Save containerd configuration to a file and restart containerd service
+  local_action: 
+    module: copy
+    content: "{{ containerd_config }}"
+    dest: /etc/containerd/config.toml
+  notify: restart containerd service
+
+  
+  

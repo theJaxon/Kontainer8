@@ -1,0 +1,5 @@
+- name: Container runtime setup
+  include_tasks: containerd.yml
+
+- name: Kubernetes prerequisites
+  include_tasks: prerequisites.yml

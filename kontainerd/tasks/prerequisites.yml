@@ -1,0 +1,59 @@
+- name: remove swap line from /etc/fstab
+  lineinfile:
+    state: absent 
+    regexp: 'swap'
+    path: /etc/fstab 
+
+- name: disable swap 
+  command: "swapoff -a"
+  changed_when: false
+
+- name: Enable kubectl completion and add aliases to .bashrc
+  blockinfile:
+    block: |
+      alias k=kubectl
+      export do='-o yaml --dry-run=client'
+      export KUBECONFIG=~/.kube/conf
+      source <(kubectl completion bash | sed 's/kubectl/k/g')
+    path: "/home/vagrant/.bashrc"
+    
+- name: Autoindent in .vimrc 
+  copy:
+    content: set ai et ts=2 shiftwidth=2
+    dest: "/home/vagrant/.vimrc" 
+
+- name: Install required packages
+  apt:
+    name: "{{ dependencies }}"
+    state: present
+
+- name: Add Kubernetes gpg key 
+  apt_key: 
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Add Kubernetes repository 
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    update_cache: True 
+
+- set_fact:
+    k8s_version: 1.20.1-00
+
+- name: Install kubernetes packages 
+  apt:
+    name: "{{ item }}={{ k8s_version }}"
+    state: present
+  loop: "{{ k8s_dependencies }}"
+
+- name: Prevent kubernetes packages from automatic upgrade
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold 
+  loop: "{{ k8s_dependencies }}"
+
+- name: Add machine entries in /etc/hosts 
+  blockinfile:
+    block: |
+      192.168.100.10 worker worker.com 
+      192.168.100.11 master master.com 
+    path: /etc/hosts

@@ -1,0 +1,100 @@
+---
+- name: Check if ssh key exists 
+  stat:
+    path: "~/.ssh/id_rsa"
+  register: key_stat
+  become_user: vagrant
+
+- debug:
+    var: key_stat
+
+- name: SSH block 
+  block:
+  - name: remove private and public keys if already exists 
+    file:
+      state: absent 
+      path: "~/.ssh/{{ item }}"
+    loop:
+    - id_rsa
+    - id_rsa.pub
+  become_user: vagrant
+  when: key_stat.stat.exists 
+
+  always:
+  - name: Generate SSH key on master node  
+    shell: 'ssh-keygen -N "" -f id_rsa' 
+    args:
+      chdir: "~/.ssh" 
+    become_user: vagrant  
+
+  - name: Add key to worker node
+    shell: "sshpass -p 'vagrant' ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub vagrant@worker"
+    args:
+      chdir: "~/.ssh"
+    become_user: vagrant 
+  when: not key_stat.stat.exists 
+
+- name: Check if kubernetes cluster is already initialized 
+  block:
+  - name: Check kubernetes status 
+    shell: 'kubectl cluster-info | sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"' # The sed part is added to remove ANSI color codes from the output [1]
+    register: kubernetes_status
+    become_user: vagrant
+    changed_when: false
+    environment:
+      KUBECONFIG: /home/vagrant/.kube/conf
+
+  - name: check if kubernetes is up and running 
+    assert:
+      that: 
+        - kubernetes_status.stdout.find('Kubernetes control plane is running') != -1
+        - kubernetes_status.stdout.find('KubeDNS is running') != -1 
+      success_msg: "Kubernetes cluster is up and running"
+      fail_msg: "Kubernetes cluster isn't initialized yet .."
+  rescue:
+  - name: Initialize the cluster 
+    command: > 
+      kubeadm init 
+      --apiserver-advertise-address=192.168.100.11
+      --pod-network-cidr=10.32.0.0/12
+      --skip-token-print
+
+- name: Create .kube directory 
+  file:
+    state: directory 
+    path: "/home/vagrant/.kube"
+    owner: vagrant
+    group: vagrant
+
+- name: Change admin.conf ownership 
+  file:
+    path: /etc/kubernetes/admin.conf 
+    owner: vagrant 
+    group: vagrant 
+
+- name: Place kubeconfig file in .kube directory
+  copy:
+    src: /etc/kubernetes/admin.conf 
+    dest: "/home/vagrant/.kube/conf"
+    owner: vagrant
+    group: vagrant
+
+- name: Add Weave net CNI Plugin 
+  shell: > 
+    kubectl apply 
+    -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  become_user: vagrant
+  environment:
+    KUBECONFIG: /home/vagrant/.kube/conf
+
+- name: Generate token that will be used to join nodes 
+  shell: kubeadm token create --print-join-command --ttl 0 2> /dev/null
+  register: join_command 
+
+- name: store join command in a file 
+  copy:
+    content: "{{ join_command['stdout'] }}"
+    dest: /home/vagrant/join.sh
+    owner: vagrant 
+    group: vagrant 
+    mode: '0744'

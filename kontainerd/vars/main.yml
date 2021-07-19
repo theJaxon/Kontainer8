@@ -1,0 +1,20 @@
+---
+kernel_modules:
+- overlay
+- br_netfilter
+
+kernel_parameters_list:
+- net.ipv4.ip_forward
+- net.bridge.bridge-nf-call-iptables
+- net.bridge.bridge-nf-call-ip6tables
+
+dependencies:
+- apt-transport-https
+- curl
+- sshpass 
+
+k8s_dependencies:
+- kubectl
+- kubelet
+- kubeadm
+
