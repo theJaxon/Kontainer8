@@ -12,7 +12,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
     - [K8s-Vagrant](https://github.com/theJaxon/K8s-Vagrant)
 - Vagrant [ansible local provisioner](https://www.vagrantup.com/docs/provisioning/ansible_local) is used to execute the roles on the target hosts
 
-- Kubernetes version to be used can be modified by changing the fact inside kontainerd role 
+- Kubernetes version to be used can be modified by [changing the fact](https://github.com/theJaxon/Kontainerd/blob/main/kontainerd/tasks/prerequisites.yml#L40) inside kontainerd role 
 ```yaml
 - set_fact:
     k8s_version: 1.20.1-00 # Change to whatever desired version
