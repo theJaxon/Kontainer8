@@ -10,6 +10,7 @@ kernel_parameters_list:
 
 dependencies:
 - apt-transport-https
+- bash-completion
 - curl
 - sshpass 
 
