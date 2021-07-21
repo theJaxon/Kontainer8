@@ -42,5 +42,16 @@ vagrant up
 vagrant ssh < master | worker >
 ```
 
+---
+
+### Optional - Install Podman: 
+- Since docker isn't available an alternative is to use **podman** as a container engine, to do this just include `podman.yml` in kontainerd role.
+```yaml
+- name: Install Podman
+  include_tasks: podman.yml
+```
+
+---
+
 - One of the quirks i've faced was with installing kubernetes packages (kubeadm, kubectl and kubelet), the problem has to do with the order so i started first by installing `kubelet` which in turn installed kubectl (and this was breaking the installation since it was installing latest kubectl version not the version i'm specifying) so upon continuing the task another attempt to install kubectl is made with a downgraded version thus ansible errors. 
 - The workaround was to change the sequence and start by installing the desired kubectl version 

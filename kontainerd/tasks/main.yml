@@ -3,3 +3,6 @@
 
 - name: Kubernetes prerequisites
   include_tasks: prerequisites.yml
+
+# - name: Install Podman
+#   include_tasks: podman.yml
