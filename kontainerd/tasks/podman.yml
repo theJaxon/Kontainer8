@@ -1,0 +1,19 @@
+- set_fact:
+    version_id: "{{ ansible_facts['distribution_version'] }}" # 20.04
+
+- name: add podman key 
+  apt_key:
+    url: "{{ podman_key }}"
+    state: present
+
+- name: add podman repository
+  apt_repository:
+    repo: "{{ podman_repo }}"
+    filename: podman
+    update_cache: true
+    state: present
+  
+- name: Install podman
+  apt:
+    name: podman
+    state: present

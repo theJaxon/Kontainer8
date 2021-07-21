@@ -20,3 +20,5 @@ k8s_dependencies:
 - kubelet
 - kubeadm
 
+podman_repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ version_id }}/ /"
+podman_key: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ version_id }}/Release.key"
