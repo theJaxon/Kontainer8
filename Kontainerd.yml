@@ -17,4 +17,5 @@
   - name: Run Join script 
     script: /home/vagrant/join.sh
     delegate_to: worker
+    become: true
     
