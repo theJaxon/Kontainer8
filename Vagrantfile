@@ -3,7 +3,7 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-20.04"
   config.vm.box_check_update = false
-  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
   config.vm.define "worker" do |worker|
     worker.vm.hostname = "worker"
