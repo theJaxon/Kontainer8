@@ -4,6 +4,21 @@
   roles:
   - kontainerd
 
+- hosts: worker
+  become: true
+  tasks:
+  - name: Enable ssh Password Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: PasswordAuthentication no
+      line: PasswordAuthentication yes
+  
+  - name: sshd restart
+    service:
+      name: sshd
+      state: restarted
+      enabled: true
+
 - hosts: master 
   become: true 
   roles:
@@ -18,4 +33,3 @@
     script: /home/vagrant/join.sh
     delegate_to: worker
     become: true
-    
