@@ -5,6 +5,18 @@
 ![Ansible](https://img.shields.io/badge/-ansible-C9284D?style=for-the-badge&logo=ansible&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/-ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Kontainerd](#kontainerd)
+    - [Vagrant Machines details:](#vagrant-machines-details)
+    - [How to use:](#how-to-use)
+    - [Optional - Install Podman:](#optional---install-podman)
+    - [Useful Resources](#useful-resources)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` as a container runtime
 - This role is just an automation for the steps of aCloudGuru CKS Lesson **Building a Kubernetes Cluster**
 - Parts of the roles are also borrowed from my previous projects for creating K8s cluster
@@ -15,7 +27,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 - Kubernetes version to be used can be modified by [changing the fact](https://github.com/theJaxon/Kontainerd/blob/main/kontainerd/tasks/prerequisites.yml#L40) inside kontainerd role 
 ```yaml
 - set_fact:
-    k8s_version: 1.20.1-00 # Change to whatever desired version
+    k8s_version: 1.24.0-00 # Change to whatever desired version
 ```
 ---
 
@@ -55,3 +67,9 @@ vagrant ssh < master | worker >
 
 - One of the quirks i've faced was with installing kubernetes packages (kubeadm, kubectl and kubelet), the problem has to do with the order so i started first by installing `kubelet` which in turn installed kubectl (and this was breaking the installation since it was installing latest kubectl version not the version i'm specifying) so upon continuing the task another attempt to install kubectl is made with a downgraded version thus ansible errors. 
 - The workaround was to change the sequence and start by installing the desired kubectl version 
+
+---
+
+### Useful Resources
+- [ justmeandopensource/kubernetes - vagrant-provisioning ](https://github.com/justmeandopensource/kubernetes/tree/master/vagrant-provisioning)
+- [Upgrading an existing cluster with kubeadm](https://kubernetes.io/docs/tasks/administer-cluster/coredns/#migrating-to-coredns)
