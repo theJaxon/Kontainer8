@@ -48,10 +48,13 @@
     assert:
       that: 
         - kubernetes_status.stdout.find('Kubernetes control plane is running') != -1
-        - kubernetes_status.stdout.find('KubeDNS is running') != -1 
+        - kubernetes_status.stdout.find('CoreDNS is running') != -1 
       success_msg: "Kubernetes cluster is up and running"
       fail_msg: "Kubernetes cluster isn't initialized yet .."
   rescue:
+  - name: Pull required containers 
+    command: kubeadm config images pull
+
   - name: Initialize the cluster 
     command: > 
       kubeadm init 
@@ -81,7 +84,7 @@
 
 - name: Add Weave net CNI Plugin 
   shell: > 
-    kubectl apply 
+    kubectl apply
     -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
   become_user: vagrant
   environment:
