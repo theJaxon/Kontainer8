@@ -46,7 +46,15 @@
     module: copy
     content: "{{ containerd_config }}"
     dest: /etc/containerd/config.toml
+
+- name: Enable SystemdCgroup 
+  lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: SystemdCgroup = false
+    line: SystemdCgroup = true
+    state: present
   notify: restart containerd service
+
 
   
   
