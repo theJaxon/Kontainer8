@@ -9,9 +9,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Vagrant Machines details:](#vagrant-machines-details)
-- [How to use:](#how-to-use)
-- [Optional - Install Podman:](#optional---install-podman)
+- [Vagrant Machines details](#vagrant-machines-details)
+- [How to use](#how-to-use)
 - [Locally building images](#locally-building-images)
 - [Useful Resources](#useful-resources)
 
@@ -52,15 +51,6 @@ vagrant up
 
 # SSH into any of the machines 
 vagrant ssh < master | worker >
-```
-
----
-
-### Optional - Install Podman
-- Since docker isn't available an alternative is to use **podman** as a container engine, to do this just include `podman.yml` in kontainerd role.
-```yaml
-- name: Install Podman
-  include_tasks: podman.yml
 ```
 
 ---
