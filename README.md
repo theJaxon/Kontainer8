@@ -9,11 +9,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Kontainerd](#kontainerd)
-    - [Vagrant Machines details:](#vagrant-machines-details)
-    - [How to use:](#how-to-use)
-    - [Optional - Install Podman:](#optional---install-podman)
-    - [Useful Resources](#useful-resources)
+- [Vagrant Machines details:](#vagrant-machines-details)
+- [How to use:](#how-to-use)
+- [Optional - Install Podman:](#optional---install-podman)
+- [Locally building images](#locally-building-images)
+- [Useful Resources](#useful-resources)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,7 +31,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 ```
 ---
 
-### Vagrant Machines details:
+### Vagrant Machines details
 
 |  Machine |    Address    |         FQDN         |
 |:--------:|:-------------:|:--------------------:|
@@ -40,7 +40,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 
 ---
 
-### How to use:
+### How to use
 ```bash
 # Clone the repo
 git clone https://github.com/theJaxon/Kontainerd.git
@@ -56,12 +56,32 @@ vagrant ssh < master | worker >
 
 ---
 
-### Optional - Install Podman: 
+### Optional - Install Podman
 - Since docker isn't available an alternative is to use **podman** as a container engine, to do this just include `podman.yml` in kontainerd role.
 ```yaml
 - name: Install Podman
   include_tasks: podman.yml
 ```
+
+---
+
+### Locally building images
+- Start by installing podman
+```bash
+# Assuming there's a Dockerfile in the current working directory
+podman build --tag jenkins-local .
+
+# Save the image into tar file
+podman save jenkins-local -o jenkins-local.tar
+
+# Use ctr to import the image 
+ctr -n=k8s.io images import jenkins-local.tar
+
+# Verify that the image is now available for k8s to use 
+critctl image ls
+
+> localhost/jenkins-local
+``` 
 
 ---
 
@@ -73,3 +93,4 @@ vagrant ssh < master | worker >
 ### Useful Resources
 - [ justmeandopensource/kubernetes - vagrant-provisioning ](https://github.com/justmeandopensource/kubernetes/tree/master/vagrant-provisioning)
 - [Upgrading an existing cluster with kubeadm](https://kubernetes.io/docs/tasks/administer-cluster/coredns/#migrating-to-coredns)
+- [Manually Loading Container Images with containerD](https://blog.scottlowe.org/2020/01/25/manually-loading-container-images-with-containerd/)
