@@ -65,10 +65,10 @@ podman build --tag jenkins-local .
 podman save jenkins-local -o jenkins-local.tar
 
 # Use ctr to import the image 
-ctr -n=k8s.io images import jenkins-local.tar
+sudo ctr -n=k8s.io images import jenkins-local.tar
 
 # Verify that the image is now available for k8s to use 
-critctl image ls
+sudo crictl image ls
 
 > localhost/jenkins-local
 ``` 
