@@ -1,4 +1,4 @@
-# Kontainerd 
+# Kontainer8
 
 ![Kubeadm](https://img.shields.io/badge/-Kubeadm-326CE5?style=for-the-badge&logo=Kubernetes&logoColor=white)
 ![Vagrant](https://img.shields.io/badge/-Vagrant-1563FF?style=for-the-badge&logo=Vagrant&logoColor=white)
@@ -42,7 +42,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 ### How to use
 ```bash
 # Clone the repo
-git clone https://github.com/theJaxon/Kontainerd.git
+git clone https://github.com/theJaxon/Kontainer8.git
 
 cd Kontainerd
 
