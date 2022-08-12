@@ -1,0 +1,3 @@
+---
+# vars file for master
+kubeconfig_path: /home/vagrant/.kube/conf
