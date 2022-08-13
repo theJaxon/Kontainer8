@@ -1,6 +1,6 @@
 ---
 - name: Install addons
-  command: kubectl apply -f /vagrant/addons/files/{{ item }}.yaml
+  command: kubectl apply -f /vagrant/extras/files/{{ item }}.yaml
   loop:
   - nginx-ingress-controller-1.3
   - local-path-storage
