@@ -1,11 +1,9 @@
 ---
 - hosts: worker,master 
-  become: true
   roles:
   - kontainerd
 
 - hosts: worker
-  become: true
   tasks:
   - name: Enable ssh Password Authentication
     lineinfile:
@@ -20,7 +18,6 @@
       enabled: true
 
 - hosts: master 
-  become: true 
   roles:
   - master
 
@@ -32,4 +29,7 @@
   - name: Run Join script 
     script: /home/vagrant/join.sh
     delegate_to: worker
-    become: true
+
+- hosts: master
+  roles:
+  - extras
