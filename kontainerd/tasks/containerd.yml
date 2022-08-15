@@ -41,6 +41,13 @@
     path: /etc/containerd
     state: directory
 
+- name: Copy crictl config file
+  copy:
+    src: crictl.yaml
+    dest: /etc/crictl.yaml
+    owner: vagrant
+    group: vagrant
+
 - name: Save containerd configuration to a file and restart containerd service
   local_action: 
     module: copy
@@ -54,7 +61,3 @@
     line: SystemdCgroup = true
     state: present
   notify: restart containerd service
-
-
-  
-  
