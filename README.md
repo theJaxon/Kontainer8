@@ -61,6 +61,7 @@ vagrant ssh < master | worker >
 ---
 
 ### Locally building images
+
 - Start by installing podman
 ```bash
 # Assuming there's a Dockerfile in the current working directory
@@ -77,6 +78,26 @@ sudo crictl image ls
 
 > localhost/jenkins-local
 ``` 
+
+---
+
+### Accessing the Ingress from the Host OS
+
+- Nginx Ingress controller is configured to use **nodeport 30000** so that we end up with a fixed port number for the controller
+- Using the controller as a proxy can be done by calling any of the 2 machines 
+```bash
+curl --proxy http://192.168.100.10:30000 http://jellyfin.media/web/index.html
+curl --proxy http://192.168.100.11:30000 http://jellyfin.media/web/index.html
+```
+- On the host OS one can take advantage of Firefox by setting the proxy to point to the ingress controller 
+
+![Firefox_proxy](https://github.com/theJaxon/Kontainer8/blob/main/etc/Firefox_Proxy.jpg)
+
+- You can take this one step further and install a plugin like [Proxy Toggle](https://addons.mozilla.org/en-US/firefox/addon/proxy-toggle-button/) to easily use the controller and revert back to the regular browser settings
+- Once the Ingress controller is set up as the proxy, you can reach the needed services using the configured ingress
+![Jellyfin](https://github.com/theJaxon/Kontainer8/blob/main/etc/Jellyfin.jpg)
+
+
 
 ---
 
