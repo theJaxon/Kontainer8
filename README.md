@@ -16,6 +16,7 @@
 - [Vagrant Machines details](#vagrant-machines-details)
 - [How to use](#how-to-use)
 - [Locally building images](#locally-building-images)
+- [Accessing the Ingress from the Host OS](#accessing-the-ingress-from-the-host-os)
 - [Extras](#extras)
 - [Useful Resources](#useful-resources)
 
