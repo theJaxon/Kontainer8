@@ -65,14 +65,16 @@ vagrant ssh < master | worker >
 
 - Start by installing podman
 ```bash
+export image_name=jenkins-local
+
 # Assuming there's a Dockerfile in the current working directory
-podman build --tag jenkins-local .
+podman build --tag $image_name .
 
 # Save the image into tar file
-podman save jenkins-local -o jenkins-local.tar
+podman save $image_name -o $image_name.tar
 
 # Use ctr to import the image 
-sudo ctr -n=k8s.io images import jenkins-local.tar
+sudo ctr -n=k8s.io images import $image_name.tar
 
 # Verify that the image is now available for k8s to use 
 sudo crictl image ls
