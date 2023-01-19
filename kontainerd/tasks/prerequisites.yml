@@ -37,7 +37,7 @@
     update_cache: True 
 
 - set_fact:
-    k8s_version: 1.24.0-00
+    k8s_version: 1.26.0-00
 
 - name: Install kubernetes packages 
   apt:
