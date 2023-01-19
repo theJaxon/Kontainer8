@@ -79,3 +79,8 @@
     line: SystemdCgroup = true
     state: present
   notify: restart containerd service
+
+- name: Enable containerd
+  service:
+    name: containerd
+    enabled: true
