@@ -13,12 +13,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Vagrant Machines details](#vagrant-machines-details)
-- [How to use](#how-to-use)
-- [Locally building images](#locally-building-images)
-- [Accessing the Ingress from the Host OS](#accessing-the-ingress-from-the-host-os)
-- [Extras](#extras)
-- [Useful Resources](#useful-resources)
+- [Kontainer8](#kontainer8)
+    - [Vagrant Machines details](#vagrant-machines-details)
+    - [How to use](#how-to-use)
+    - [Locally building images](#locally-building-images)
+    - [Accessing the Ingress from the Host OS](#accessing-the-ingress-from-the-host-os)
+    - [Extras](#extras)
+    - [Useful Resources](#useful-resources)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -50,7 +51,7 @@ Creating a kubernetes cluster using Vagrant machines as nodes and `Containerd` a
 # Clone the repo
 git clone https://github.com/theJaxon/Kontainer8.git
 
-cd Kontainerd
+cd Kontainer8
 
 # Start the machines 
 vagrant up 
