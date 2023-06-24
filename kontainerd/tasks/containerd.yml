@@ -23,15 +23,19 @@
     state: present
   loop: "{{ kernel_parameters_list }}"
 
+- name: Check architecture
+  set_fact:
+    arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
 - name: "Download containerd {{ containerd_version }}"
   get_url: 
-    url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-amd64.tar.gz"
-    dest: "/tmp/containerd-{{ containerd_version }}-linux-amd64.tar.gz"
+    url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ arch }}.tar.gz"
+    dest: "/tmp/containerd-{{ containerd_version }}-linux-{{ arch }}.tar.gz"
     force: no
 
 - name: Extract and place containerd in correct location
   unarchive:
-    src: "/tmp/containerd-{{ containerd_version }}-linux-amd64.tar.gz"
+    src: "/tmp/containerd-{{ containerd_version }}-linux-{{ arch }}.tar.gz"
     dest: /usr/bin
     extra_opts: [--strip-components=1] # Ignore outer bin file containing containerd binaries
 
@@ -42,7 +46,7 @@
 
 - name: Install runc
   get_url:
-    url: "https://github.com/opencontainers/runc/releases/download/v{{ runc_version }}/runc.amd64"
+    url: "https://github.com/opencontainers/runc/releases/download/v{{ runc_version }}/runc.{{ arch }}"
     dest: /usr/local/sbin/runc
     mode: '755'
 
