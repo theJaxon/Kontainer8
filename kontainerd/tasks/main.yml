@@ -8,3 +8,4 @@
   apt:
     name: podman
     state: present
+  when: ansible_architecture != "aarch64"
