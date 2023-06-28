@@ -117,6 +117,11 @@ curl --proxy http://192.168.100.11:30000 http://jellyfin.media/web/index.html
 
 ---
 
+### Fix weave net Daemonset issue
+```bash
+k apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml
+```
+
 ### Useful Resources
 - [ justmeandopensource/kubernetes - vagrant-provisioning ](https://github.com/justmeandopensource/kubernetes/tree/master/vagrant-provisioning)
 - [Upgrading an existing cluster with kubeadm](https://kubernetes.io/docs/tasks/administer-cluster/coredns/#migrating-to-coredns)
