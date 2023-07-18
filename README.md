@@ -1,6 +1,6 @@
 # Kontainer8
 
-![Kubeadm](https://img.shields.io/badge/-Kubeadm%201.24.0-326CE5?style=for-the-badge&logo=Kubernetes&logoColor=white)
+![Kubeadm](https://img.shields.io/badge/-Kubeadm%201.26.0-326CE5?style=for-the-badge&logo=Kubernetes&logoColor=white)
 ![Vagrant](https://img.shields.io/badge/-Vagrant-1563FF?style=for-the-badge&logo=Vagrant&logoColor=white)
 ![Ansible](https://img.shields.io/badge/-ansible-C9284D?style=for-the-badge&logo=ansible&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/-ubuntu%2022.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
